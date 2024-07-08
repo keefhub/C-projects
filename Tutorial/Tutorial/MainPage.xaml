@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tutorial.MainPage"
+             xmlns:viewmodel="clr-namespace:Tutorial.ViewModel"
+             x:DataType="viewmodel:MainViewModel">
+
+    <Grid RowDefinitions="100, Auto, *" ColumnDefinitions=".75*, .25*" Padding="10" RowSpacing="10" ColumnSpacing="10">
+
+        <!-- Application Logo -->
+        <Image Grid.ColumnSpan="2" Source="dotnet_bot.png" BackgroundColor="Transparent"/>
+
+        <!-- Text Entry for New Task -->
+        <Entry Placeholder="Enter Task" Grid.Row="1" Text="{Binding Text}"/>
+
+        <!-- Add Button for Adding New Tasks -->
+        <Button Text="Add" Grid.Row="1" Grid.Column="1" Command="{Binding AddCommand}"/>
+
+        <!-- CollectionView for Displaying Task List -->
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <!-- SwipeView for Deleting Tasks -->
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <!-- Delete Action for Each Task -->
+                            <SwipeItem Text="Delete" BackgroundColor="Red" 
+                                       Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}" 
+                                       CommandParameter="{Binding .}"/>
+                        </SwipeView.RightItems>
+                        <Grid>
+                            <Frame>
+                                <!-- Label displaying the task -->
+                                <Label Text="{Binding}" FontSize="24"/>
+                                <!-- Tap gesture to navigate to DetailPage -->
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}" 
+                                                          CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
