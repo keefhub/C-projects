@@ -4,7 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
+<<<<<<< HEAD
 recipebook.sln
+=======
+/backend/obj
+>>>>>>> my-feature-branch
 /backend/bin
 
 # testing
