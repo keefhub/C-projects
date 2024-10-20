@@ -6,6 +6,16 @@ builder.Services.AddDbContext<RecipeDB>(opt => opt.UseInMemoryDatabase("Recipes"
 builder.Services.AddMySqlDataSource(builder.Configuration.GetConnectionString("Default")!);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+// adding cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy => policy.WithOrigins("http://localhost:3000")  // React app's URL
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
 {
@@ -54,8 +64,8 @@ app.MapPut("/recipe/{recipeId}", async (int recipeId, Recipe inputRecipe, Recipe
 
     recipe.RecipeName = inputRecipe.RecipeName;
     recipe.RecipeDescription = inputRecipe.RecipeDescription;
-    recipe.RecipeIngredients = inputRecipe.RecipeIngredients;
-    recipe.RecipeInstructions = inputRecipe.RecipeInstructions;
+    recipe.RecipeIngredient = inputRecipe.RecipeIngredient;
+    recipe.RecipeInstruction = inputRecipe.RecipeInstruction;
 
     await db.SaveChangesAsync();
 

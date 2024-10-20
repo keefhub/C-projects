@@ -10,6 +10,8 @@ import {
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
+import CreateRecipe from "../components/api";
+
 const AddRecipe = () => {
   const options = ["vegetarian", "non-vegetarian"];
 
@@ -49,33 +51,43 @@ const AddRecipe = () => {
     return errors;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrorMessage(""); // Reset error message
+  const handleSubmit = async (e) => {
+    // e.preventDefault(); // Prevent form submission
+    // setErrorMessage(""); // Reset the error message
 
-    const errors = validateInputs();
-    if (errors.length > 0) {
-      setErrorMessage(errors.join(" ")); // Join errors into a single message
-      return;
+    // // Run validation checks
+    // const errors = validateInputs();
+
+    // // If validation errors exist, stop submission
+    // if (errors.length > 0) {
+    //   setErrorMessage(errors.join(" ")); // Show validation errors
+    //   return;
+    // }
+
+    // If validation is successful, try to submit the recipe
+    const recipeData = {
+      recipeName: recipeName,
+      recipeDescription: recipeDescription,
+      recipeIngredient: recipeIngredients,
+      recipeInstruction: recipeInstructions,
+    };
+    console.log(recipeData);
+
+    try {
+      await CreateRecipe(recipeData);
+      // If successful, you could redirect or clear the form here
+      console.log("Recipe created successfully!");
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Failed to add recipe. Please try again later.");
     }
-
-    // Proceed with form submission logic here
-    console.log("Recipe added successfully:", {
-      inputOption,
-      recipeName,
-      recipeDescription,
-      recipeIngredients,
-      recipeInstructions,
-    });
-
     // Clear fields after submission if needed
-    onCancel();
+    // onCancel();
   };
 
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit} // Attach the handleSubmit to the form
       style={{
         display: "flex",
         justifyContent: "center",
@@ -151,7 +163,10 @@ const AddRecipe = () => {
             variant="contained"
             color="primary"
             startIcon={<AddCircleOutlineIcon />}
-            type="submit" // Make this button submit the form
+            onClick={() => {
+              handleSubmit();
+              alert("clicked");
+            }}
           >
             Add Recipe
           </Button>
