@@ -4,9 +4,6 @@ using MySqlConnector;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddDbContext<RecipeDB>(opt => opt.UseInMemoryDatabase("Recipes"));
-// builder.Services.AddMySqlDataSource(builder.Configuration.GetConnectionString("Default")!);
-
 //opening connection
 builder.Services.AddDbContext<RecipeDB>(options =>
     options.UseMySql(
@@ -51,11 +48,14 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-Console.WriteLine("Opening Connection");
-
-app.MapGet("/allRecipes", async (RecipeDB db) =>
-    await db.Recipe.ToListAsync());
-
+app.MapGet("/recipe", async (RecipeDB db) => {
+     var recipeList = await db.Recipe.ToListAsync();
+     return recipeList;
+    //  foreach (var recipe in recipeList)
+    //  {
+    //      Console.WriteLine(recipe);
+    // }
+});
 
 app.MapGet("/recipe/{recipeId}", async (int recipeId, RecipeDB db) =>
     await db.Recipe.FindAsync(recipeId)
@@ -65,7 +65,6 @@ app.MapGet("/recipe/{recipeId}", async (int recipeId, RecipeDB db) =>
 
 app.MapPost("/recipe", async ([FromBody] Recipe recipe, [FromServices] RecipeDB db) =>
 {
-    Console.WriteLine($"Received recipe: {JsonSerializer.Serialize(recipe)}");
     db.Recipe.Add(recipe);
     await db.SaveChangesAsync();
 

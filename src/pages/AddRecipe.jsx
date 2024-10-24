@@ -10,7 +10,7 @@ import {
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-import CreateRecipe from "../components/api";
+import api from "../components/api";
 
 const AddRecipe = () => {
   const options = ["vegetarian", "non-vegetarian"];
@@ -78,15 +78,13 @@ const AddRecipe = () => {
     console.log(recipeData);
 
     try {
-      await CreateRecipe(recipeData);
-      // If successful, you could redirect or clear the form here
-      console.log("Recipe sent to backend");
+      await api.CreateRecipe(recipeData);
     } catch (error) {
       console.error(error);
       setErrorMessage("Failed to add recipe. Please try again later.");
     }
     // Clear fields after submission if needed
-    // onCancel();
+    onCancel();
   };
 
   return (
