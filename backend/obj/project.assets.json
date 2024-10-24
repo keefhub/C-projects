@@ -598,6 +598,23 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "[8.0.2, 8.0.999]",
+          "MySqlConnector": "2.3.5"
+        },
+        "compile": {
+          "lib/net8.0/Pomelo.EntityFrameworkCore.MySql.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Pomelo.EntityFrameworkCore.MySql.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.Collections/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -2032,6 +2049,21 @@
         "lib/netstandard2.0/NSwag.Generation.AspNetCore.xml",
         "nswag.generation.aspnetcore.14.1.0.nupkg.sha512",
         "nswag.generation.aspnetcore.nuspec"
+      ]
+    },
+    "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
+      "sha512": "XjnlcxVBLnEMbyEc5cZzgZeDyLvAniACZQ04W1slWN0f4rmfNzl98gEMvHnFH0fMDF06z9MmgGi/Sr7hJ+BVnw==",
+      "type": "package",
+      "path": "pomelo.entityframeworkcore.mysql/8.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net8.0/Pomelo.EntityFrameworkCore.MySql.dll",
+        "lib/net8.0/Pomelo.EntityFrameworkCore.MySql.xml",
+        "pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
+        "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
     "System.Collections/4.3.0": {
@@ -3592,7 +3624,8 @@
       "Microsoft.EntityFrameworkCore.InMemory >= 8.0.10",
       "MySqlConnector >= 2.3.7",
       "MySqlConnector.DependencyInjection >= 2.3.6",
-      "NSwag.AspNetCore >= 14.1.0"
+      "NSwag.AspNetCore >= 14.1.0",
+      "Pomelo.EntityFrameworkCore.MySql >= 8.0.2"
     ]
   },
   "packageFolders": {
@@ -3602,9 +3635,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Keith\\projects\\recipebook\\backend\\Backend.csproj",
-      "projectName": "Backend",
-      "projectPath": "C:\\Users\\Keith\\projects\\recipebook\\backend\\Backend.csproj",
+      "projectUniqueName": "C:\\Users\\Keith\\projects\\recipebook\\backend\\backend.csproj",
+      "projectName": "backend",
+      "projectPath": "C:\\Users\\Keith\\projects\\recipebook\\backend\\backend.csproj",
       "packagesPath": "C:\\Users\\Keith\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Keith\\projects\\recipebook\\backend\\obj\\",
       "projectStyle": "PackageReference",
@@ -3668,6 +3701,10 @@
           "NSwag.AspNetCore": {
             "target": "Package",
             "version": "[14.1.0, )"
+          },
+          "Pomelo.EntityFrameworkCore.MySql": {
+            "target": "Package",
+            "version": "[8.0.2, )"
           }
         },
         "imports": [

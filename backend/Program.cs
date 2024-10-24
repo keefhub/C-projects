@@ -1,9 +1,18 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<RecipeDB>(opt => opt.UseInMemoryDatabase("Recipes"));
-builder.Services.AddMySqlDataSource(builder.Configuration.GetConnectionString("Default")!);
+//builder.Services.AddDbContext<RecipeDB>(opt => opt.UseInMemoryDatabase("Recipes"));
+// builder.Services.AddMySqlDataSource(builder.Configuration.GetConnectionString("Default")!);
+
+//opening connection
+builder.Services.AddDbContext<RecipeDB>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("Default"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))
+    ));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // adding cors
@@ -12,7 +21,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowReactApp",
         policy => policy.WithOrigins("http://localhost:3000")  // React app's URL
                         .AllowAnyHeader()
-                        .AllowAnyMethod());
+                        .AllowAnyMethod()
+                        .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .AllowCredentials());
 });
 
 
@@ -26,6 +37,8 @@ builder.Services.AddOpenApiDocument(config =>
 
 var app = builder.Build();
 
+app.UseCors("AllowReactApp");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
@@ -38,6 +51,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+Console.WriteLine("Opening Connection");
+
 app.MapGet("/allRecipes", async (RecipeDB db) =>
     await db.Recipe.ToListAsync());
 
@@ -48,20 +63,22 @@ app.MapGet("/recipe/{recipeId}", async (int recipeId, RecipeDB db) =>
             ? Results.Ok(recipe)
             : Results.NotFound());
 
-app.MapPost("/recipe", async (Recipe recipe, RecipeDB db) =>
+app.MapPost("/recipe", async ([FromBody] Recipe recipe, [FromServices] RecipeDB db) =>
 {
+    Console.WriteLine($"Received recipe: {JsonSerializer.Serialize(recipe)}");
     db.Recipe.Add(recipe);
     await db.SaveChangesAsync();
 
     return Results.Created($"/recipe/{recipe.RecipeId}", recipe);
 });
 
-app.MapPut("/recipe/{recipeId}", async (int recipeId, Recipe inputRecipe, RecipeDB db) =>
+app.MapPut("/recipe/{recipeId}", async (int recipeId, Recipe inputRecipe, [FromServices] RecipeDB db) =>
 {
     var recipe = await db.Recipe.FindAsync(recipeId);
 
     if (recipe is null) return Results.NotFound();
 
+    recipe.RecipeType = inputRecipe.RecipeType;
     recipe.RecipeName = inputRecipe.RecipeName;
     recipe.RecipeDescription = inputRecipe.RecipeDescription;
     recipe.RecipeIngredient = inputRecipe.RecipeIngredient;
@@ -72,7 +89,7 @@ app.MapPut("/recipe/{recipeId}", async (int recipeId, Recipe inputRecipe, Recipe
     return Results.NoContent();
 });
 
-app.MapDelete("/recipe/{recipeId}", async (int recipeId, RecipeDB db) =>
+app.MapDelete("/recipe/{recipeId}", async (int recipeId, [FromServices] RecipeDB db) =>
 {
     if (await db.Recipe.FindAsync(recipeId) is Recipe recipe)
     {

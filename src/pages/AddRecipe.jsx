@@ -31,41 +31,45 @@ const AddRecipe = () => {
     setErrorMessage(""); // Clear error message on cancel
   };
 
-  const validateInputs = () => {
-    const textInputTest = /^[^<>]*$/; // Regex to allow all characters except < and >
-    const errors = [];
+  // const validateInputs = () => {
+  //   const textInputTest = /^[^<>]*$/; // Regex to allow all characters except < and >
+  //   const errors = [];
 
-    if (!textInputTest.test(recipeName)) {
-      errors.push("Recipe Name cannot contain < or >.");
-    }
-    if (!textInputTest.test(recipeDescription)) {
-      errors.push("Description cannot contain < or >.");
-    }
-    if (!textInputTest.test(recipeIngredients)) {
-      errors.push("Ingredients cannot contain < or >.");
-    }
-    if (!textInputTest.test(recipeInstructions)) {
-      errors.push("Instructions cannot contain < or >.");
-    }
+  //   if (!textInputTest.test(recipeName)) {
+  //     errors.push("Recipe Name cannot contain < or >.");
+  //   }
+  //   if (!textInputTest.test(recipeDescription)) {
+  //     errors.push("Description cannot contain < or >.");
+  //   }
+  //   if (!textInputTest.test(recipeIngredients)) {
+  //     errors.push("Ingredients cannot contain < or >.");
+  //   }
+  //   if (!textInputTest.test(recipeInstructions)) {
+  //     errors.push("Instructions cannot contain < or >.");
+  //   }
 
-    return errors;
-  };
+  //   return errors;
+  // };
 
-  const handleSubmit = async (e) => {
-    // e.preventDefault(); // Prevent form submission
-    // setErrorMessage(""); // Reset the error message
+  // const validateSubmit = async (e) => {
+  //   e.preventDefault(); // Prevent form submission
+  //   setErrorMessage(""); // Reset the error message
 
-    // // Run validation checks
-    // const errors = validateInputs();
+  //   // Run validation checks
+  //   const errors = validateInputs();
 
-    // // If validation errors exist, stop submission
-    // if (errors.length > 0) {
-    //   setErrorMessage(errors.join(" ")); // Show validation errors
-    //   return;
-    // }
+  //   // If validation errors exist, stop submission
+  //   if (errors.length > 0) {
+  //     setErrorMessage(errors.join(" ")); // Show validation errors
+  //     return;
+  //   }
+  // };
 
-    // If validation is successful, try to submit the recipe
+  const onClickSubmit = async () => {
+    //validateSubmit();
+    //If validation is successful, try to submit the recipe
     const recipeData = {
+      recipeType: inputOption,
       recipeName: recipeName,
       recipeDescription: recipeDescription,
       recipeIngredient: recipeIngredients,
@@ -76,7 +80,7 @@ const AddRecipe = () => {
     try {
       await CreateRecipe(recipeData);
       // If successful, you could redirect or clear the form here
-      console.log("Recipe created successfully!");
+      console.log("Recipe sent to backend");
     } catch (error) {
       console.error(error);
       setErrorMessage("Failed to add recipe. Please try again later.");
@@ -114,7 +118,9 @@ const AddRecipe = () => {
             label="Recipe Name"
             variant="outlined"
             required
-            onChange={(e) => setRecipeName(e.target.value)}
+            onChange={(e) => {
+              setRecipeName(e.target.value);
+            }}
             value={recipeName}
           />
         </Stack>
@@ -164,8 +170,7 @@ const AddRecipe = () => {
             color="primary"
             startIcon={<AddCircleOutlineIcon />}
             onClick={() => {
-              handleSubmit();
-              alert("clicked");
+              onClickSubmit();
             }}
           >
             Add Recipe

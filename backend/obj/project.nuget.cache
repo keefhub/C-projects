@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "MeuIIcdIu/c=",
+  "dgSpecHash": "2jmAvKf+oTA=",
   "success": true,
   "projectFilePath": "C:\\Users\\Keith\\projects\\recipebook\\backend\\backend.csproj",
   "expectedPackageFiles": [
@@ -39,6 +39,7 @@
     "C:\\Users\\Keith\\.nuget\\packages\\nswag.core.yaml\\14.1.0\\nswag.core.yaml.14.1.0.nupkg.sha512",
     "C:\\Users\\Keith\\.nuget\\packages\\nswag.generation\\14.1.0\\nswag.generation.14.1.0.nupkg.sha512",
     "C:\\Users\\Keith\\.nuget\\packages\\nswag.generation.aspnetcore\\14.1.0\\nswag.generation.aspnetcore.14.1.0.nupkg.sha512",
+    "C:\\Users\\Keith\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\8.0.2\\pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
     "C:\\Users\\Keith\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\Keith\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
     "C:\\Users\\Keith\\.nuget\\packages\\system.dynamic.runtime\\4.3.0\\system.dynamic.runtime.4.3.0.nupkg.sha512",
