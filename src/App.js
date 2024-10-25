@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ErrorPage from "./pages/ErrorPage";
 import AddRecipe from "./pages/AddRecipe";
+import ViewRecipe from "./pages/ViewRecipe";
 
 //navigation
 import DrawerMenu from "./components/navBar";
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/AddRecipe" element={<AddRecipe />} />
+        <Route path="recipe/:recipeId" element={<ViewRecipe />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

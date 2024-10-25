@@ -88,7 +88,7 @@ app.MapPut("/recipe/{recipeId}", async (int recipeId, Recipe inputRecipe, [FromS
     return Results.NoContent();
 });
 
-app.MapDelete("/recipe/{recipeId}", async (int recipeId, [FromServices] RecipeDB db) =>
+app.MapDelete("/recipe/{recipeId:int}", async (int recipeId, [FromServices] RecipeDB db) =>
 {
     if (await db.Recipe.FindAsync(recipeId) is Recipe recipe)
     {
