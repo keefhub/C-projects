@@ -40,4 +40,23 @@ const GetRecipeById = async (recipeId) => {
   }
 };
 
-export default { CreateRecipe, GetAllRecipes, DeleteRecipe, GetRecipeById };
+const EditRecipe = async (recipeId, recipeData) => {
+  console.log("Recipe Data", recipeData, "for recipeId", recipeId);
+  try {
+    const res = await axios.put(
+      `http://localhost:5252/recipe/${recipeId}`,
+      recipeData
+    );
+    return res.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export default {
+  CreateRecipe,
+  GetAllRecipes,
+  DeleteRecipe,
+  GetRecipeById,
+  EditRecipe,
+};

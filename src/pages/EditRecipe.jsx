@@ -1,22 +1,52 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../components/api";
 
 //material ui imports
-import { Stack, Typography, TextField, Box } from "@mui/material";
+import { Stack, Typography, TextField, Box, Button } from "@mui/material";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
 const EditRecipe = () => {
   const [retrievedRecipe, setRetrievedRecipe] = useState([]);
+  const [inputDescription, setInputDescription] = useState("");
+  const [inputIngredient, setInputIngredient] = useState("");
+  const [inputInstruction, setInputInstruction] = useState("");
+  // not used but need to send in anyway
+  const [recipeType, setRecipeType] = useState("");
+  const [recipeName, setRecipeName] = useState("");
+
   const { recipeId } = useParams();
+  const navigate = useNavigate();
 
   const handleRecipeData = async (recipeId) => {
     try {
       const recipeData = await api.GetRecipeById(recipeId);
-      console.log("Recipe Data", recipeData);
       setRetrievedRecipe(recipeData);
+      setInputDescription(recipeData.recipeDescription || "");
+      setInputIngredient(recipeData.recipeIngredient || "");
+      setInputInstruction(recipeData.recipeInstruction || "");
+      setRecipeType(recipeData.recipeType || "");
+      setRecipeName(recipeData.recipeName || "");
       return recipeData;
     } catch (error) {
       console.error("Error fetching recipe data", error);
+    }
+  };
+
+  const handleEditData = async () => {
+    const recipeData = {
+      recipeName: recipeName,
+      recipeType: recipeType,
+      recipeDescription: inputDescription,
+      recipeIngredient: inputIngredient,
+      recipeInstruction: inputInstruction,
+    };
+    console.log("Recipe Data", recipeData, "for recipeId", recipeId);
+    try {
+      await api.EditRecipe(recipeId, recipeData);
+      navigate(`/recipe/${recipeId}`);
+    } catch (error) {
+      console.error("Error editing recipe data", error);
     }
   };
 
@@ -59,31 +89,15 @@ const EditRecipe = () => {
               fontWeight="bold"
               sx={{ width: 150 }}
             >
-              Recipe Name:
-            </Typography>
-            <TextField
-              id="recipeName"
-              value={retrievedRecipe.recipeName}
-              variant="outlined"
-              sx={{ width: 450 }}
-            />
-          </Stack>
-
-          <Stack spacing={2} direction="row" alignItems="center">
-            <Typography
-              variant="body1"
-              component="p"
-              fontWeight="bold"
-              sx={{ width: 150 }}
-            >
               Description:
             </Typography>
             <TextField
               id="recipeDescription"
-              value={retrievedRecipe.recipeDescription}
+              value={inputDescription}
               variant="outlined"
               multiline
-              minRows={3} // To allow for longer descriptions
+              minRows={3}
+              onChange={(e) => setInputDescription(e.target.value)}
               sx={{ width: 450 }}
             />
           </Stack>
@@ -99,10 +113,11 @@ const EditRecipe = () => {
             </Typography>
             <TextField
               id="recipeIngredient"
-              value={retrievedRecipe.recipeIngredient}
+              value={inputIngredient}
               variant="outlined"
               multiline
-              minRows={2}
+              minRows={3}
+              onChange={(e) => setInputIngredient(e.target.value)}
               sx={{ width: 450 }}
             />
           </Stack>
@@ -118,14 +133,23 @@ const EditRecipe = () => {
             </Typography>
             <TextField
               id="recipeInstruction"
-              value={retrievedRecipe.recipeInstruction}
+              value={inputInstruction}
               variant="outlined"
               multiline
               minRows={3}
+              onChange={(e) => setInputInstruction(e.target.value)}
               sx={{ width: 450 }}
             />
           </Stack>
         </Stack>
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<SaveAltIcon />}
+          onClick={handleEditData}
+        >
+          Save Edit
+        </Button>
       </Stack>
     </Box>
   );

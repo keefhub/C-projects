@@ -77,8 +77,8 @@ app.MapPut("/recipe/{recipeId}", async (int recipeId, Recipe inputRecipe, [FromS
 
     if (recipe is null) return Results.NotFound();
 
-    recipe.RecipeType = inputRecipe.RecipeType;
-    recipe.RecipeName = inputRecipe.RecipeName;
+    //recipe.RecipeType = inputRecipe.RecipeType;
+    //recipe.RecipeName = inputRecipe.RecipeName;
     recipe.RecipeDescription = inputRecipe.RecipeDescription;
     recipe.RecipeIngredient = inputRecipe.RecipeIngredient;
     recipe.RecipeInstruction = inputRecipe.RecipeInstruction;
