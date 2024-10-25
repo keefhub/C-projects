@@ -23,21 +23,22 @@ const Home = () => {
   }, []);
 
   return (
-    <div style={{}}>
-      <h1>Recipes</h1>
+    <div>
       {allRecipes.length > 0 ? (
-        <Grid
-          container
-          spacing={2}
-          alignItems="center0"
-          justifyContent="center"
-        >
+        <Grid container spacing={2} justifyContent="center">
           {/* Grid container with spacing */}
           {allRecipes.map((recipe) => (
             <Grid item xs={12} sm={6} md={3} key={recipe.recipeId}>
               {/* xs=12 (full width on small screens), sm=6 (two per row on medium), md=3 (four per row on large screens) */}
-              <Box sx={{ minWidth: 275 }}>
-                <Card variant="outlined" sx={{ width: "100%" }}>
+              <Box>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    width: 350,
+                    height: 200,
+                    maxHeight: 350,
+                  }}
+                >
                   <CardContent>
                     <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                       {recipe.recipeName}

@@ -23,7 +23,6 @@ const GetAllRecipes = async () => {
 };
 
 const DeleteRecipe = async (recipeId) => {
-  console.log("recipeId: ", recipeId);
   try {
     await axios.delete(`http://localhost:5252/recipe/${recipeId}`);
   } catch (error) {
@@ -31,4 +30,14 @@ const DeleteRecipe = async (recipeId) => {
   }
 };
 
-export default { CreateRecipe, GetAllRecipes, DeleteRecipe };
+const GetRecipeById = async (recipeId) => {
+  try {
+    const res = await axios.get(`http://localhost:5252/recipe/${recipeId}`);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+};
+
+export default { CreateRecipe, GetAllRecipes, DeleteRecipe, GetRecipeById };
