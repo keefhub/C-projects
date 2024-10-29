@@ -48,13 +48,14 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapGet("/recipe", async (RecipeDB db) => {
-     var recipeList = await db.Recipe.ToListAsync();
-     return recipeList;
-    //  foreach (var recipe in recipeList)
-    //  {
-    //      Console.WriteLine(recipe);
-    // }
+app.MapGet("/recipe", async (RecipeDB db, string? RecipeType) => {
+    if (string.IsNullOrEmpty(RecipeType)) {
+        var recipeList = await db.Recipe.ToListAsync(); // retrieves all and return if no RecipeType is provided
+        return recipeList;
+    } else {
+        var recipeList = await db.Recipe.Where(recipe => recipe.RecipeType == RecipeType).ToListAsync();
+        return recipeList;
+    }
 });
 
 app.MapGet("/recipe/{recipeId}", async (int recipeId, RecipeDB db) =>

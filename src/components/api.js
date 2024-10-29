@@ -41,7 +41,6 @@ const GetRecipeById = async (recipeId) => {
 };
 
 const EditRecipe = async (recipeId, recipeData) => {
-  console.log("Recipe Data", recipeData, "for recipeId", recipeId);
   try {
     const res = await axios.put(
       `http://localhost:5252/recipe/${recipeId}`,
@@ -53,10 +52,23 @@ const EditRecipe = async (recipeId, recipeData) => {
   }
 };
 
+const GetFilteredRecipe = async (recipeType) => {
+  try {
+    const res = await axios.get(`http://localhost:5252/recipe`, {
+      params: { RecipeType: recipeType },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching data", error);
+    return [];
+  }
+};
+
 export default {
   CreateRecipe,
   GetAllRecipes,
   DeleteRecipe,
   GetRecipeById,
   EditRecipe,
+  GetFilteredRecipe,
 };

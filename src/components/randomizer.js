@@ -13,9 +13,12 @@ import {
   Button,
 } from "@mui/material";
 
+import api from "./api";
+
 const Randomizer = () => {
   const [numberOfDishes, setNumberOfDishes] = useState("");
   const [dishType, setDishType] = useState("");
+  const [retrievedRecipes, setRetrievedRecipes] = useState([]);
 
   const onRadioChange = (event) => {
     setDishType(event.target.value);
@@ -25,13 +28,14 @@ const Randomizer = () => {
     setNumberOfDishes(event.target.value);
   };
 
-  const onRandomize = () => {
-    console.log(
-      "The number of dishes:",
-      numberOfDishes,
-      "the dish type:",
-      dishType
-    );
+  const onRandomize = async () => {
+    try {
+      const allRetrieved = await api.GetFilteredRecipe(dishType);
+      setRetrievedRecipes(allRetrieved);
+      console.log(retrievedRecipes);
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
   };
   return (
     <FormControl>
