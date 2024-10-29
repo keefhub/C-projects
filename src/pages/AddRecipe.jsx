@@ -175,7 +175,7 @@ const AddRecipe = () => {
           </Button>
           <Button
             variant="contained"
-            color="secondary"
+            color="error"
             onClick={onCancel}
             startIcon={<ClearAllIcon />}
           >
