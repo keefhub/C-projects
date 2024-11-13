@@ -8,7 +8,10 @@ const CreateRecipe = async (recipeData) => {
       },
     });
   } catch (error) {
-    console.error(error);
+    if (error.response && error.response.status === 409) {
+      throw new Error("Recipe already exists");
+    }
+    throw new Error("Failed to update database");
   }
 };
 

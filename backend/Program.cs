@@ -66,6 +66,8 @@ app.MapGet("/recipe/{recipeId}", async (int recipeId, RecipeDB db) =>
 
 app.MapPost("/recipe", async ([FromBody] Recipe recipe, [FromServices] RecipeDB db) =>
 {
+    var isExist = await db.Recipe.FirstOrDefaultAsync(r => r.RecipeName == recipe.RecipeName); 
+    if (isExist != null) return Results.Conflict("Recipe name already exist");
     db.Recipe.Add(recipe);
     await db.SaveChangesAsync();
 

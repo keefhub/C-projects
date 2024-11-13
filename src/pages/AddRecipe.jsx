@@ -31,40 +31,6 @@ const AddRecipe = () => {
     setErrorMessage(""); // Clear error message on cancel
   };
 
-  // const validateInputs = () => {
-  //   const textInputTest = /^[^<>]*$/; // Regex to allow all characters except < and >
-  //   const errors = [];
-
-  //   if (!textInputTest.test(recipeName)) {
-  //     errors.push("Recipe Name cannot contain < or >.");
-  //   }
-  //   if (!textInputTest.test(recipeDescription)) {
-  //     errors.push("Description cannot contain < or >.");
-  //   }
-  //   if (!textInputTest.test(recipeIngredients)) {
-  //     errors.push("Ingredients cannot contain < or >.");
-  //   }
-  //   if (!textInputTest.test(recipeInstructions)) {
-  //     errors.push("Instructions cannot contain < or >.");
-  //   }
-
-  //   return errors;
-  // };
-
-  // const validateSubmit = async (e) => {
-  //   e.preventDefault(); // Prevent form submission
-  //   setErrorMessage(""); // Reset the error message
-
-  //   // Run validation checks
-  //   const errors = validateInputs();
-
-  //   // If validation errors exist, stop submission
-  //   if (errors.length > 0) {
-  //     setErrorMessage(errors.join(" ")); // Show validation errors
-  //     return;
-  //   }
-  // };
-
   const onClickSubmit = async () => {
     //validateSubmit();
     //If validation is successful, try to submit the recipe
@@ -79,12 +45,14 @@ const AddRecipe = () => {
 
     try {
       await api.CreateRecipe(recipeData);
+      // Clear fields after submission if needed
+      onCancel();
     } catch (error) {
+      setErrorMessage(
+        error.message || "Failed to add recipe. Please try again later."
+      );
       console.error(error);
-      setErrorMessage("Failed to add recipe. Please try again later.");
     }
-    // Clear fields after submission if needed
-    onCancel();
   };
 
   return (
@@ -153,7 +121,7 @@ const AddRecipe = () => {
             value={recipeInstructions}
           />
         </Box>
-        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         <Stack
           direction="row"
           spacing={2}

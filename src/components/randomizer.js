@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Radio,
@@ -11,6 +11,9 @@ import {
   Box,
   Typography,
   Button,
+  Grid2,
+  Card,
+  CardContent,
 } from "@mui/material";
 
 import api from "./api";
@@ -32,11 +35,15 @@ const Randomizer = () => {
     try {
       const allRetrieved = await api.GetFilteredRecipe(dishType);
       setRetrievedRecipes(allRetrieved);
-      console.log(retrievedRecipes);
     } catch (error) {
       console.error("Error fetching data", error);
     }
   };
+
+  useEffect(() => {
+    console.log("Updated retrievedRecipes:", retrievedRecipes);
+  }, [retrievedRecipes]);
+
   return (
     <FormControl>
       <Box>
@@ -78,6 +85,47 @@ const Randomizer = () => {
         <Button variant="contained" color="secondary" onClick={onRandomize}>
           Randomize Now!
         </Button>
+      </Box>
+
+      <Box
+        sx={{
+          maxHeight: 400,
+          overflowY: "auto",
+          padding: 2,
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+          scrollbarWidth: "none",
+        }}
+      >
+        {retrievedRecipes.length > 0 ? (
+          <Grid2 container spacing={2} justifyContent="center">
+            <Typography>Retrieved Recipes:</Typography>
+            {retrievedRecipes.map((recipe) => (
+              <Grid2 item xs={12} sm={6} md={3} key={recipe.recipeId}>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    width: 250,
+                    height: 150,
+                    maxHeight: 350,
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="h5" fontWeight="bold">
+                      {recipe.recipeName}
+                    </Typography>
+                    <Typography fontSize={16}>
+                      Ingredients: {recipe.recipeIngredient}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid2>
+            ))}
+          </Grid2>
+        ) : (
+          <Typography></Typography>
+        )}
       </Box>
     </FormControl>
   );
