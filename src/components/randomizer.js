@@ -33,6 +33,8 @@ const Randomizer = () => {
   };
 
   const onRandomize = async () => {
+    setErrorMessage("");
+    setRetrievedRecipes([]);
     try {
       const allRetrieved = await api.GetRandomizedRecipe(
         dishType,
@@ -40,7 +42,7 @@ const Randomizer = () => {
       );
       setRetrievedRecipes(allRetrieved);
     } catch (error) {
-      setErrorMessage(error.message || "Please provide a valid recipe type.");
+      setErrorMessage(error.message);
     }
   };
 

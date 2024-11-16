@@ -77,8 +77,20 @@ const GetRandomizedRecipe = async (recipeType, numberOfDishes) => {
     });
     return res.data;
   } catch (error) {
-    console.error("Error fetching data", error);
-    return [];
+    if (error.response) {
+      switch (error.response.status) {
+        case 400:
+          throw new Error("Please provide a valid recipe type.");
+        case 422:
+          throw new Error(
+            "Unprocessable: Number of dishes is less than the number of recipe"
+          );
+        default:
+          throw new Error("Failed to fetch data.");
+      }
+    } else {
+      throw new Error(`Unexpected error: ${error.message}`);
+    }
   }
 };
 

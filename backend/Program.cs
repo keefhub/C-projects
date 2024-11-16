@@ -55,7 +55,7 @@ app.MapGet("/recipe/homepage", async (RecipeDB db) => {
 });
 
 //randomize the recipe for display at homepage and by the number of dishes
-app.MapGet("/recipe", async (RecipeDB db, string? RecipeType, int? numOfDish) =>
+app.MapGet("/recipe", async (RecipeDB db, [FromQuery] string? RecipeType, [FromQuery] int? numOfDish) =>
 {
     Console.WriteLine("the received recipe",RecipeType);
     //if user did not provide RecipeType or numOfDis return bad request
@@ -69,7 +69,7 @@ app.MapGet("/recipe", async (RecipeDB db, string? RecipeType, int? numOfDish) =>
     var recipeCount = await recipeQuery.CountAsync(); // count the number of recipe based on RecipeType
 
     if (numOfDish.Value > recipeCount) {
-        return Results.BadRequest("Number of dishes is less than the number of recipe");
+        return Results.UnprocessableEntity("Number of dishes is less than the number of recipe");
     }
 
     var randamizedRecipe = Shuffle(recipeList).Take(numOfDish.Value).ToList();
