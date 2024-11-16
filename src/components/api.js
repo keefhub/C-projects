@@ -17,7 +17,7 @@ const CreateRecipe = async (recipeData) => {
 
 const GetAllRecipes = async () => {
   try {
-    const res = await axios.get("http://localhost:5252/recipe");
+    const res = await axios.get("http://localhost:5252/recipe/homepage");
     return res.data;
   } catch (error) {
     console.error("Error fetching data", error);
@@ -67,6 +67,21 @@ const GetFilteredRecipe = async (recipeType) => {
   }
 };
 
+const GetRandomizedRecipe = async (recipeType, numberOfDishes) => {
+  try {
+    const res = await axios.get(`http://localhost:5252/recipe`, {
+      params: {
+        RecipeType: recipeType,
+        numOfDish: numberOfDishes,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching data", error);
+    return [];
+  }
+};
+
 export default {
   CreateRecipe,
   GetAllRecipes,
@@ -74,4 +89,5 @@ export default {
   GetRecipeById,
   EditRecipe,
   GetFilteredRecipe,
+  GetRandomizedRecipe,
 };

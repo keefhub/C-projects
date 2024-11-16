@@ -22,6 +22,7 @@ const Randomizer = () => {
   const [numberOfDishes, setNumberOfDishes] = useState("");
   const [dishType, setDishType] = useState("");
   const [retrievedRecipes, setRetrievedRecipes] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onRadioChange = (event) => {
     setDishType(event.target.value);
@@ -33,10 +34,13 @@ const Randomizer = () => {
 
   const onRandomize = async () => {
     try {
-      const allRetrieved = await api.GetFilteredRecipe(dishType);
+      const allRetrieved = await api.GetRandomizedRecipe(
+        dishType,
+        numberOfDishes
+      );
       setRetrievedRecipes(allRetrieved);
     } catch (error) {
-      console.error("Error fetching data", error);
+      setErrorMessage(error.message || "Please provide a valid recipe type.");
     }
   };
 
@@ -85,6 +89,7 @@ const Randomizer = () => {
         <Button variant="contained" color="secondary" onClick={onRandomize}>
           Randomize Now!
         </Button>
+        {errorMessage && <Typography color="error">{errorMessage}</Typography>}
       </Box>
 
       <Box
