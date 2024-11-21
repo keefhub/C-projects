@@ -1,3 +1,4 @@
+namespace Backend.Model;
 public class Recipe 
 {
     public int RecipeId { get; set; }
