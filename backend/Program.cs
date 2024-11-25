@@ -34,8 +34,9 @@ builder.Services.AddOpenApiDocument(config =>
     config.Version = "v1";
 });
 
-// Register Recipe Service
+// Register Services
 builder.Services.AddScoped<IRecipeServices, RecipeServices>();
+builder.Services.AddScoped<IAuthService, AuthServices>();
 
 var app = builder.Build();
 
