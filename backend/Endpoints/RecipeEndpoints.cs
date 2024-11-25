@@ -16,17 +16,20 @@ public static class RecipeEndpoints
         });
 
         // Randomize recipes for homepage
-        app.MapGet("/recipe", async (IRecipeServices service, [FromQuery] string? recipeType, [FromQuery] int? numOfDishes) =>
+        app.MapGet("/recipe", async (IRecipeServices service, [FromQuery] string? recipeType, [FromQuery] int numOfDishes) =>
         {
-            Console.WriteLine(recipeType);
-            if (string.IsNullOrEmpty(recipeType) || !numOfDishes.HasValue)
+            Console.WriteLine($"RecipeType: {recipeType}");
+            Console.WriteLine($"Number of Dishes: {numOfDishes}");
+            
+            if (string.IsNullOrEmpty(recipeType) || numOfDishes == 0)
             {
+
                 return Results.BadRequest("Please provide the required values.");
             }
 
             try
             {
-                var recipes = await service.GetRandomRecipesAsync(recipeType, numOfDishes.Value);
+                var recipes = await service.GetRandomRecipesAsync(recipeType, numOfDishes);
                 return Results.Ok(recipes);
             }
             catch (Exception ex)

@@ -15,6 +15,9 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
+import { useAuth } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 const Home = () => {
   const [allRecipes, setAllRecipes] = useState([]);
   const [open, setOpen] = useState(false);
@@ -34,12 +37,23 @@ const Home = () => {
     fetchRecipes();
   }, []);
 
+  //logout logic
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const onLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <div>
       {/* Container for header items i.e., search bar and randomizer */}
       <Box justifyContent="center">
         <Button onClick={handleOpen} color="secondary">
           Aiya.. Today I don't know what to cook..
+        </Button>
+        <Button onClick={onLogout} color="primary">
+          Logout
         </Button>
         <Modal open={open} onClose={handleClose}>
           <Box className="modal-style">

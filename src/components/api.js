@@ -71,8 +71,8 @@ const GetRandomizedRecipe = async (recipeType, numberOfDishes) => {
   try {
     const res = await axios.get(`http://localhost:5252/recipe`, {
       params: {
-        RecipeType: recipeType,
-        numOfDish: numberOfDishes,
+        recipeType: recipeType,
+        numOfDishes: numberOfDishes,
       },
     });
     return res.data;

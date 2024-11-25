@@ -11,8 +11,15 @@ import AddIcon from "@mui/icons-material/Add";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import IconButton from "@mui/material/IconButton";
 
+import { useAuth } from "../Context/AuthContext";
+
 const DrawerMenu = () => {
   const [open, setOpen] = React.useState(false);
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -21,7 +28,7 @@ const DrawerMenu = () => {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List component="nav">
-        <ListItem component={Link} to="/" button>
+        <ListItem component={Link} to="/home" button>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
