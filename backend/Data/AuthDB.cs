@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using backend.Model;
+using Backend.Model;
 
-namespace backend.Data
+namespace Backend.Data
 {
     public class AuthDB : DbContext
     {

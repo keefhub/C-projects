@@ -12,6 +12,12 @@ builder.Services.AddDbContext<RecipeDB>(options =>
         builder.Configuration.GetConnectionString("Default"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))
     ));
+builder.Services.AddDbContext<AuthDB>(options =>
+options.UseMySql(
+    builder.Configuration.GetConnectionString("Default"),
+    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))
+    ));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Add CORS Policy
@@ -36,7 +42,7 @@ builder.Services.AddOpenApiDocument(config =>
 
 // Register Services
 builder.Services.AddScoped<IRecipeServices, RecipeServices>();
-builder.Services.AddScoped<IAuthService, AuthServices>();
+builder.Services.AddScoped<IAuthServices, AuthServices>();
 
 var app = builder.Build();
 
@@ -55,6 +61,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapRecipeEndpoints(); // Call an extension method to map endpoints
+// Call an extension method to map endpoints
+app.MapRecipeEndpoints(); 
+app.MapAuthEndpoints(); 
 
 app.Run();

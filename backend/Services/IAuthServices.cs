@@ -3,7 +3,7 @@ using Backend.Data;
 
 namespace Backend.Services
 {
-    public class AuthServices : IAuthService
+    public class AuthServices : IAuthServices
     {
         private readonly AuthDB _context;
 

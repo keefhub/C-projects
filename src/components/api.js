@@ -94,6 +94,28 @@ const GetRandomizedRecipe = async (recipeType, numberOfDishes) => {
   }
 };
 
+const AuthenticateUser = async (username, password) => {
+  try {
+    const res = await axios.post("http://localhost:5252/auth", {
+      Username: username,
+      Password: password,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    switch (error.response.status) {
+      case 400:
+        throw new Error("Please provide a valid username and password");
+      case 401:
+        throw new Error("Invalid username or password");
+      default:
+        throw new Error("Failed to authenticate user");
+    }
+  }
+};
+
 export default {
   CreateRecipe,
   GetAllRecipes,
@@ -102,4 +124,5 @@ export default {
   EditRecipe,
   GetFilteredRecipe,
   GetRandomizedRecipe,
+  AuthenticateUser,
 };

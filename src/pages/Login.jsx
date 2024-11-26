@@ -1,22 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-import { Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
+
+import api from "../components/api";
 
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    login(); //set user as authenticated
-    navigate("/home");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      const res = await api.AuthenticateUser(username, password);
+      if (res) {
+        login(); //set user as authenticated
+        navigate("/home");
+      } else {
+        alert("Invalid username or password");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
-    <div>
+    <Box>
+      <TextField
+        variant="outlined"
+        label="Username"
+        onChange={(e) => setUsername(e.target.value)}
+        value={username}
+      >
+        Username:
+      </TextField>
+      <TextField
+        variant="outlined"
+        label="Password"
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
+      >
+        Username:
+      </TextField>
       <Button onClick={handleSubmit}>Login</Button>
-    </div>
+    </Box>
   );
 };
 

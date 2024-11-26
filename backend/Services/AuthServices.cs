@@ -1,7 +1,5 @@
-using Newtonsoft.Json;
-
 namespace Backend.Services ;
-public interface IAuthService
+public interface IAuthServices
 {
     Task<string?> AuthenticateAsync( string username, string password);
 }
