@@ -54,3 +54,12 @@ c:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\YamlDotNet.dll
 c:\Users\Keith\projects\recipebook\backend\obj\Debug\net8.0\backend.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Keith\projects\recipebook\backend\obj\Debug\net8.0\backend.sourcelink.json
 C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Pomelo.Extensions.Caching.MySql.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

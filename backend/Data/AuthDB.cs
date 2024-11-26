@@ -11,5 +11,6 @@ namespace Backend.Data
 
         // DbSet for the Auth entity
         public DbSet<Auth> Auth { get; set; } = null!;
+        public DbSet<Session> Sessions { get; set; } = null!;
     }
 }

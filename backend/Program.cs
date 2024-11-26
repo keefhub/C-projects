@@ -18,6 +18,26 @@ options.UseMySql(
     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))
     ));
 
+// === storing of session cache in MySQL ===
+builder.Services.AddDistributedMySqlCache(options =>
+{
+    options.ConnectionString = builder.Configuration.GetConnectionString("Default");
+    options.TableName = "SessionCache";
+});
+
+// === Add session cookies ===
+builder.Services.AddSession(options =>
+{
+    //options.Cookie.Name = "RecipeAPI.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    if (builder.Environment.IsProduction())
+    {
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensure secure cookies in production
+    }
+});
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Add CORS Policy
@@ -31,7 +51,7 @@ builder.Services.AddCors(options =>
               .AllowCredentials());
 });
 
-// Add Swagger (OpenAPI)
+// === Add Swagger (OpenAPI) ===
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
 {
@@ -40,7 +60,7 @@ builder.Services.AddOpenApiDocument(config =>
     config.Version = "v1";
 });
 
-// Register Services
+// === Register Services ===
 builder.Services.AddScoped<IRecipeServices, RecipeServices>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 
@@ -64,5 +84,11 @@ if (app.Environment.IsDevelopment())
 // Call an extension method to map endpoints
 app.MapRecipeEndpoints(); 
 app.MapAuthEndpoints(); 
+
+//use session and cookies
+app.UseSession();
+
+app.UseHttpsRedirection();
+
 
 app.Run();

@@ -102,6 +102,7 @@ const AuthenticateUser = async (username, password) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     return res.data;
   } catch (error) {
