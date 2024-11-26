@@ -51,7 +51,7 @@ public static class AuthEndpoint
                 var user = await authService.ValidateSession(sessionId);
                 return Results.Ok(user);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Results.Unauthorized();
             }
@@ -71,7 +71,7 @@ public static class AuthEndpoint
                 context.Response.Cookies.Delete("SessionId");
                 return Results.Ok("Session ended.");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Results.Unauthorized();
             }
