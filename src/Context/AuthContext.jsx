@@ -11,10 +11,32 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const login = async (username, password) => {
+    try {
+      const response = await fetch("http://localhost:5252/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        setIsAuthenticated(true); // User is authenticated
+      } else {
+        setIsAuthenticated(false); // User is not authenticated
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      setIsAuthenticated(false); // Handle login error
+    }
+  };
+
   // check if the user is authenticated by looking at session
   const checkSession = async () => {
+    if (!isAuthenticated) return;
     try {
-      const response = await fetch("/api/validate-session", {
+      const response = await fetch("http://localhost:5252/auth/validate", {
         method: "GET",
         credentials: "include", // Include session cookies
       });
@@ -30,16 +52,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkSession();
-  }, []);
-
-  const login = () => {
-    setIsAuthenticated(true); 
-  };
+    if (isAuthenticated) {
+      checkSession();
+    }
+  }, [isAuthenticated]);
 
   const logout = async () => {
     try {
-      await fetch("/api/logout", {
+      await fetch("http://localhost:5252/auth/logout", {
         method: "POST",
         credentials: "include", // Include session cookies for logout
       });

@@ -3,7 +3,7 @@ using Backend.Model;
 namespace Backend.Services ;
 public interface IAuthServices
 {
-    Task<string?> AuthenticateAsync( string username, string password);
+    Task<int?> AuthenticateAsync( string username, string password);
     
     //create a new session
     Task<string> CreateSession(int userId);

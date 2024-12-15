@@ -33,7 +33,7 @@ const ViewRecipe = () => {
         return;
       }
       await api.DeleteRecipe(recipeId);
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Error deleting recipe", error);
     }

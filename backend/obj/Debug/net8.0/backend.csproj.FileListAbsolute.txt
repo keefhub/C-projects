@@ -63,3 +63,4 @@ C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.IdentityMo
 C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\Pomelo.Extensions.Caching.MySql.dll
 C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Keith\projects\recipebook\backend\bin\Debug\net8.0\BCrypt.Net-Next.dll

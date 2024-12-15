@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "BbtViSGtfDw=",
+  "dgSpecHash": "LNWPJpL/Y+8=",
   "success": true,
   "projectFilePath": "C:\\Users\\Keith\\projects\\recipebook\\backend\\backend.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Keith\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Keith\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
     "C:\\Users\\Keith\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.entityframeworkcore\\8.0.10\\microsoft.aspnetcore.diagnostics.entityframeworkcore.8.0.10.nupkg.sha512",
     "C:\\Users\\Keith\\.nuget\\packages\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",

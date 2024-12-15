@@ -1,5 +1,6 @@
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Endpoints;
 
@@ -8,8 +9,9 @@ public static class AuthEndpoint
     public static void MapAuthEndpoints(this WebApplication app)
     {
 
-        app.MapPost("/auth/login", async (AuthServices authService, Auth auth, HttpContext context) =>
+        app.MapPost("/auth/login", async ( IAuthServices authService, [FromBody]Auth auth,  HttpContext context) =>
         {
+            
             if (string.IsNullOrEmpty(auth.Username) || string.IsNullOrEmpty(auth.Password))
             {
                 return Results.BadRequest("Please provide the required values.");
@@ -23,7 +25,8 @@ public static class AuthEndpoint
             }
 
             //creating session cookie
-            var sessionId = await authService.CreateSession(auth.Id);
+            Console.WriteLine("Auth Id: " + authenticatedUser.Value);
+            var sessionId = await authService.CreateSession(authenticatedUser.Value);
 
             //setting the session cookie
             context.Response.Cookies.Append("SessionId", sessionId, new CookieOptions
@@ -36,9 +39,10 @@ public static class AuthEndpoint
             return Results.Ok(authenticatedUser);
         });
 
-        app.MapGet("/auth/validate", async (AuthServices authService, HttpContext context) =>
+        app.MapGet("/auth/validate", async (IAuthServices authService, HttpContext context) =>
         {
             var sessionId = context.Request.Cookies["SessionId"];
+            Console.WriteLine("SessionId: " + sessionId);
 
             if (string.IsNullOrEmpty(sessionId))
             {
@@ -57,7 +61,7 @@ public static class AuthEndpoint
             }
         });
 
-        app.MapPost("/auth/logout", async (AuthServices authService,HttpContext context) =>
+        app.MapPost("/auth/logout", async (IAuthServices authService,HttpContext context) =>
         {
             var sessionId = context.Request.Cookies["SessionId"];
             if (string.IsNullOrEmpty(sessionId))

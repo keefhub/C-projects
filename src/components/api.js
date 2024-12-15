@@ -96,7 +96,7 @@ const GetRandomizedRecipe = async (recipeType, numberOfDishes) => {
 
 const AuthenticateUser = async (username, password) => {
   try {
-    const res = await axios.post("http://localhost:5252/auth", {
+    const res = await axios.post("http://localhost:5252/auth/login", {
       Username: username,
       Password: password,
       headers: {
@@ -106,6 +106,7 @@ const AuthenticateUser = async (username, password) => {
     });
     return res.data;
   } catch (error) {
+    console.log(error.response);
     switch (error.response.status) {
       case 400:
         throw new Error("Please provide a valid username and password");

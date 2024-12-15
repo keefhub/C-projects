@@ -22,7 +22,7 @@ options.UseMySql(
 builder.Services.AddDistributedMySqlCache(options =>
 {
     options.ConnectionString = builder.Configuration.GetConnectionString("Default");
-    options.TableName = "SessionCache";
+    options.TableName = "sessioncache";
 });
 
 // === Add session cookies ===
@@ -32,10 +32,10 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(20);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-    if (builder.Environment.IsProduction())
-    {
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensure secure cookies in production
-    }
+    // if (builder.Environment.IsProduction())
+    // {
+    //     options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensure secure cookies in production
+    // }
 });
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -88,7 +88,7 @@ app.MapAuthEndpoints();
 //use session and cookies
 app.UseSession();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 
 app.Run();
