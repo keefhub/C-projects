@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Backend.Data;
 using Backend.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Services
 {
@@ -15,6 +16,7 @@ namespace Backend.Services
 
         public async Task<int?> AuthenticateAsync(string username, string password)
         {
+            Console.WriteLine("Username in AuthenticateAsync: " + username);
             var user = await _context.Auth.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
             if (user == null) return null;
             // bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
@@ -22,7 +24,7 @@ namespace Backend.Services
 
             return user.Id;
         }
-
+    
         public async Task<string> CreateSession (int userId) 
         {
             var sessionId = Guid.NewGuid().ToString();
@@ -77,6 +79,7 @@ namespace Backend.Services
         public async Task<string> EndSession(string sessionId)
         {
             var session = await _context.sessioncache.FirstOrDefaultAsync(s => s.Id == sessionId);
+            Console.WriteLine("SessionId in EndSession: " + sessionId);
             if (session == null)
             {
                 throw new Exception("Invalid session.");

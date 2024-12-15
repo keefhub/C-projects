@@ -25,15 +25,15 @@ public static class AuthEndpoint
             }
 
             //creating session cookie
-            Console.WriteLine("Auth Id: " + authenticatedUser.Value);
             var sessionId = await authService.CreateSession(authenticatedUser.Value);
 
             //setting the session cookie
-            context.Response.Cookies.Append("SessionId", sessionId, new CookieOptions
+            context.Response.Cookies.Append("SessionId", sessionId.ToString(), new CookieOptions
                 {
                     HttpOnly = true, // Protect from JS access
                     Expires = DateTime.Now.AddMinutes(30),
                     SameSite = SameSiteMode.Strict
+
                 });
 
             return Results.Ok(authenticatedUser);
@@ -42,7 +42,7 @@ public static class AuthEndpoint
         app.MapGet("/auth/validate", async (IAuthServices authService, HttpContext context) =>
         {
             var sessionId = context.Request.Cookies["SessionId"];
-            Console.WriteLine("SessionId: " + sessionId);
+
 
             if (string.IsNullOrEmpty(sessionId))
             {
@@ -71,7 +71,8 @@ public static class AuthEndpoint
 
             try
             {
-                await authService.EndSession(sessionId);
+                string sessionIdAsString = sessionId.ToString();
+                await authService.EndSession(sessionIdAsString);
                 context.Response.Cookies.Delete("SessionId");
                 return Results.Ok("Session ended.");
             }

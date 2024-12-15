@@ -2,6 +2,7 @@ using Backend.Data;
 using Backend.Services;
 using Backend.Endpoints;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 

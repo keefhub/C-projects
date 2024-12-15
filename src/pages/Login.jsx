@@ -17,7 +17,7 @@ const Login = () => {
     try {
       const res = await api.AuthenticateUser(username, password);
       if (res) {
-        login(); //set user as authenticated
+        login(username, password); //set user as authenticated
         navigate("/home");
       } else {
         alert("Invalid username or password");

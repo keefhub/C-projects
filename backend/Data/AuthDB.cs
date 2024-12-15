@@ -12,6 +12,7 @@ namespace Backend.Data
         // DbSet for the Auth entity
         public DbSet<Auth> Auth { get; set; } = null!;
         public DbSet<Session> sessioncache { get; set; } = null!;
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

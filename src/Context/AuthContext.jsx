@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import api from "../components/api";
 
 // Create the AuthContext with initial values
 const AuthContext = createContext({
@@ -7,10 +8,11 @@ const AuthContext = createContext({
   logout: () => {},
 });
 
-// wrap the app and provide session management
+// Wrap the app and provide session management
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Function to log the user in
   const login = async (username, password) => {
     try {
       const response = await fetch("http://localhost:5252/auth/login", {
@@ -18,13 +20,19 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          Username: username,
+          Password: password,
+        }),
+        credentials: "include", // Include session cookies
       });
 
       if (response.ok) {
         setIsAuthenticated(true); // User is authenticated
+        return true;
       } else {
         setIsAuthenticated(false); // User is not authenticated
+        return false;
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -32,31 +40,33 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // check if the user is authenticated by looking at session
+  // Function to check session status on initial load
   const checkSession = async () => {
-    if (!isAuthenticated) return;
     try {
-      const response = await fetch("http://localhost:5252/auth/validate", {
-        method: "GET",
-        credentials: "include", // Include session cookies
-      });
+      // Only validate the session if the user is already marked as authenticated
+      if (isAuthenticated) {
+        const response = await fetch("http://localhost:5252/auth/validate", {
+          method: "GET",
+          credentials: "include", // Include session cookies
+        });
 
-      if (response.ok) {
-        setIsAuthenticated(true); // User is authenticated
-      } else {
-        setIsAuthenticated(false); // User is not authenticated
+        if (response.ok) {
+          setIsAuthenticated(true); // User remains authenticated
+        } else {
+          setIsAuthenticated(false); // Session is invalid, mark as not authenticated
+        }
       }
     } catch (error) {
-      setIsAuthenticated(false); // Handle session error
+      console.error("Session validation failed:", error);
+      setIsAuthenticated(false); // Handle session error gracefully
     }
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      checkSession();
-    }
-  }, [isAuthenticated]);
+    checkSession(); // Check session on initial load
+  }, []);
 
+  // Function to log the user out
   const logout = async () => {
     try {
       await fetch("http://localhost:5252/auth/logout", {
